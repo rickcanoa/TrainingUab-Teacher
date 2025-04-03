@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace AppTrainingBE.Migrations
+namespace AppTrainingBETeacher.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
