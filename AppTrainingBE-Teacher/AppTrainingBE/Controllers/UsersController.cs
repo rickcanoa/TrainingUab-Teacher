@@ -1,4 +1,5 @@
 ﻿using AppTrainingBE.Context;
+using AppTrainingBETeacher.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

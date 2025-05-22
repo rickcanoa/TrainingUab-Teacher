@@ -28,33 +28,7 @@ END;
 delete Authors;
 select * from Authors;
 ------------------------
-POST /api/authors
-{
-  "name": "Gabriel García Márquez",
-  "bookIds": [1, 2]
-}
 
-PUT /api/authors/1
-{
-  "id": 1,
-  "name": "Gabriel García Márquez",
-  "bookIds": [2, 3]
-}
-
-DELETE /api/authors/1
-
-POST /api/books
-{
-  "title": "Cien años de soledad",
-  "authorIds": [1, 2]
-}
-
-PUT /api/books/1
-{
-  "id": 1,
-  "title": "Cien años de soledad - Edición revisada",
-  "authorIds": [2, 3]
-}
 
 DELETE /api/books/1
 -------------------------------------------------------------------
@@ -74,3 +48,88 @@ GO
 RECONFIGURE; 
 GO
 -------------------------------------------------------------------
+POSTMAN
+1:1
+
+GET: https://localhost:44325/api/Users
+
+POST: https://localhost:44325/api/Users
+{
+  "username": "jdoe",
+  "profile": {
+    "fullName": "John Doe",
+    "dateOfBirth": "1990-05-10"
+  }
+}
+
+PUT: https://localhost:44325/api/Users/1
+{
+  "username": "jdoe_updated",
+  "profile": {
+    "id": 1,
+    "fullName": "Johnathan Doe",
+    "dateOfBirth": "1990-05-10",
+    "userId": 1
+  }
+}
+
+DELETE: https://localhost:44325/api/Users/6
+
+-------------------------------------------------------------------
+POSTMAN
+1:N
+
+GET: https://localhost:44325/api/Categories
+
+POST: https://localhost:44325/api/Categories
+{
+  "name": "Dispositivos Electrónicos",
+  "products": [
+    {
+      "name": "Calular",
+      "price": 399.99
+    },
+    {
+      "name": "Laptop",
+      "price": 999.50
+    }
+  ]
+}
+
+PUT: https://localhost:44325/api/Categories/1
+{
+  "id": 1,
+  "name": "Updated Electronics",
+  "products": [
+    {
+      "name": "Tablet",
+      "price": 199.99
+    },
+    {
+      "name": "Smartwatch",
+      "price": 129.99
+    }
+  ]
+}
+
+DELETE: https://localhost:44325/api/Categories/1
+
+-------------------------------------------------------------------
+POSTMAN
+N:N
+
+GET:
+POST:
+{
+  "fullName": "Ana Gómez",
+  "courseIds": [1, 2]
+}
+
+PUT:
+{
+  "id": 1,
+  "fullName": "Ana G. Actualizada",
+  "courseIds": [2, 3]  // Reemplaza todos los cursos inscritos
+}
+
+DELETE:
