@@ -25,6 +25,7 @@ namespace AppTrainingBE.Controllers
             
             listPer.Add(dicRes);
 
+            dicRes = new Dictionary<string, object>();
             dicRes.Add("Nombre", "Maria Lopez");
             dicRes.Add("Edad", 23);
             dicRes.Add("Fecha", DateTime.Now.ToString("dd/MM/yyyy"));

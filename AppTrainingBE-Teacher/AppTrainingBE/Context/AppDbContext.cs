@@ -1,5 +1,5 @@
 ﻿using AppTrainingBE.Models;
-using AppTrainingBETeacher.Models;
+//using AppTrainingBETeacher.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppTrainingBE.Context
@@ -13,24 +13,28 @@ namespace AppTrainingBE.Context
         }
 
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<AuthorBook> AuthorBooks { get; set; }
+
+
+        #region Uno a Uno
+        public DbSet<User> Users => Set<User>();
+        public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AuthorBook>()
-                .HasKey(ab => new { ab.AuthorId, ab.BookId });
+            #region Uno a Uno
+            //// Configurar relación 1:1
+            //modelBuilder.Entity<User>()
+            //    .HasOne(u => u.Profile)
+            //    .WithOne(p => p.User)
+            //    .HasForeignKey<UserProfile>(p => p.UserId);
 
-            modelBuilder.Entity<AuthorBook>()
-                .HasOne(ab => ab.Author)
-                .WithMany(a => a.AuthorBooks)
-                .HasForeignKey(ab => ab.AuthorId);
-
-            modelBuilder.Entity<AuthorBook>()
-                .HasOne(ab => ab.Book)
-                .WithMany(b => b.AuthorBooks)
-                .HasForeignKey(ab => ab.BookId);
+            //// Restricciones adicionales opcionales
+            //modelBuilder.Entity<User>()
+            //    .Property(u => u.Username)
+            //    .IsRequired()
+            //    .HasMaxLength(100);
+            #endregion
         }
     }
 }

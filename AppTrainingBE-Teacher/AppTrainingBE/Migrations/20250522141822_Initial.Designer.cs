@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppTrainingBETeacher.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250505200034_Initial")]
+    [Migration("20250522141822_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -52,82 +52,65 @@ namespace AppTrainingBETeacher.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("AppTrainingBETeacher.Models.Author", b =>
+            modelBuilder.Entity("AppTrainingBETeacher.Models.User", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AppTrainingBETeacher.Models.AuthorBook", b =>
+            modelBuilder.Entity("AppTrainingBETeacher.Models.UserProfile", b =>
                 {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("AuthorBooks");
-                });
-
-            modelBuilder.Entity("AppTrainingBETeacher.Models.Book", b =>
-                {
-                    b.Property<int>("BookId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Title")
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BookId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Books");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserProfiles");
                 });
 
-            modelBuilder.Entity("AppTrainingBETeacher.Models.AuthorBook", b =>
+            modelBuilder.Entity("AppTrainingBETeacher.Models.UserProfile", b =>
                 {
-                    b.HasOne("AppTrainingBETeacher.Models.Author", "Author")
-                        .WithMany("AuthorBooks")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("AppTrainingBETeacher.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("AppTrainingBETeacher.Models.UserProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AppTrainingBETeacher.Models.Book", "Book")
-                        .WithMany("AuthorBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AppTrainingBETeacher.Models.User", b =>
+                {
+                    b.Navigation("Profile")
                         .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("AppTrainingBETeacher.Models.Author", b =>
-                {
-                    b.Navigation("AuthorBooks");
-                });
-
-            modelBuilder.Entity("AppTrainingBETeacher.Models.Book", b =>
-                {
-                    b.Navigation("AuthorBooks");
                 });
 #pragma warning restore 612, 618
         }
